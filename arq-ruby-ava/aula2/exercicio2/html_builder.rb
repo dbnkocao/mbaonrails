@@ -13,7 +13,7 @@ class HtmlBuilder
     @html << "</div>"
   end
 
-  def span(content)
+  def span(content = "", &block)
     @html << "<span>"
     yield if block_given?
     @html << content
@@ -22,6 +22,6 @@ class HtmlBuilder
 
   def result
     instance_eval(&@block)
-    puts @html
+    @html
   end
 end
