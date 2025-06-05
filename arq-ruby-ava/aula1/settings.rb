@@ -1,13 +1,13 @@
 class Settings
-  attr_accessor :configurações
+  attr_accessor :config
 
   def initialize
-    @configurações = {}
+    @config = {}
   end
 
   def add(attribute, value, aliass: nil, readonly: false)
     eval("@#{attribute} = value")
-    eval("@configurações[:#{attribute}] = value")
+    eval("@config[:#{attribute}] = value")
 
     self.class.public_send(:define_method, attribute) do
       eval("@#{attribute}")
@@ -16,7 +16,7 @@ class Settings
     unless readonly
       self.class.public_send(:define_method, "#{attribute}=") do |new_value|
         eval("@#{attribute} = new_value")
-        eval("@configurações[:#{attribute}] = new_value")
+        eval("@config[:#{attribute}] = new_value")
       end
     end
 
@@ -27,7 +27,7 @@ class Settings
   end
 
   def all
-    @configurações
+    @config
   end
 
   def method_missing(method_name, *args, &block)
